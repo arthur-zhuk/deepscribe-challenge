@@ -56,19 +56,12 @@ export async function POST(req: Request) {
     // Filter to only actively recruiting trials
     url.searchParams.append('filter.overallStatus', 'RECRUITING');
     
-    // Combine demographic terms for broader text-based filtering
-    const terms: string[] = [];
-    if (patientData.age) {
-      terms.push(`${patientData.age} Years`);
-    }
-    if (patientData.gender) {
-      terms.push(patientData.gender);
-    }
+    // NOTE: We have removed demographic `query.term` filtering.
+    // The ClinicalTrials v2 API is highly sensitive and often returns no results 
+    // when terms like "32 Years" or "FEMALE" are combined with the condition,
+    // because trial text isn't strictly standardized to those exact phrases.
+    // Instead, we let the robust `query.cond` parameter pull the active matches.
     
-    if (terms.length > 0) {
-      url.searchParams.append('query.term', terms.join(' AND '));
-    }
-
     url.searchParams.append('pageSize', '10');
 
     const response = await fetch(url.toString());
