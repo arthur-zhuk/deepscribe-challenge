@@ -16,18 +16,24 @@ Dr. Jones: I understand. Since you are 55 and the Metformin isn't quite getting 
 Mark: Sure, I'd be willing to try something new if it helps get my sugar under control.`,
   `Dr. Lee: Hi Emily. How are your joints feeling this month? Any improvement with the new biologic?
 Emily: Not really, Dr. Lee. My hands are still very stiff in the mornings, and the swelling in my knees hasn't gone down much.
-Dr. Lee: I'm sorry to hear that. For a 41-year-old with Rheumatoid Arthritis, we want to aim for much better mobility and pain control. Since you haven't responded well to the standard biologics, you might be a good candidate for a clinical trial testing a new class of targeted therapies.
+Dr. Lee: I'm sorry to hear that. For a 35-year-old with Rheumatoid Arthritis, we want to aim for much better mobility and pain control. Since you haven't responded well to the standard biologics, you might be a good candidate for a clinical trial testing a new class of targeted therapies.
 Emily: That sounds promising. I just want to be able to play with my kids without pain.`,
   `Dr. Patel: Good afternoon, Robert. How have the tremors been lately?
 Robert: They've been getting worse, especially in my right hand. And I've noticed I'm moving a lot slower than I used to.
-Dr. Patel: Let's review your chart. You're 62, and we diagnosed you with Parkinson's disease about three years ago. The Levodopa seems to be wearing off faster between doses now. 
+Dr. Patel: Let's review your chart. You're 65, and we diagnosed you with Parkinson's disease about three years ago. The Levodopa seems to be wearing off faster between doses now. 
 Robert: Exactly. By the time I'm due for the next pill, I can barely walk.
 Dr. Patel: There are a few actively recruiting trials looking at extended-release formulations and completely new mechanisms to treat motor fluctuations in Parkinson's. Let's see if you qualify for any.`,
   `Dr. Garcia: Welcome back, Chloe. Did the recent MRI show any new lesions?
 Chloe: Unfortunately, yes. The radiologist said there are two new active spots on my spine. My legs have been feeling really weak and tingly again.
 Dr. Garcia: I see. Relapsing-remitting Multiple Sclerosis can be unpredictable. You're only 28, so we need to be aggressive about preventing further disease progression. 
 Chloe: What are our options? The current infusions make me feel so sick.
-Dr. Garcia: We can look at switching your disease-modifying therapy. I also know of a trial investigating a novel remyelination drug that aims to actually repair nerve damage. It might be worth exploring.`
+Dr. Garcia: We can look at switching your disease-modifying therapy. I also know of a trial investigating a novel remyelination drug that aims to actually repair nerve damage. It might be worth exploring.`,
+  `Dr. Adams: Hello, Lisa. I received the results from your latest mammogram and biopsy.
+Lisa: Hi Dr. Adams. I've been so anxious. What did they find?
+Dr. Adams: I know this is difficult to hear, but the biopsy confirmed early-stage Breast Cancer. The good news is that we caught it very early.
+Lisa: Oh no. What does this mean for me? I'm only 45.
+Dr. Adams: Given your age and the specific markers on the tumor, we have several effective treatment options. In fact, there is a very promising clinical trial right now looking at a targeted hormone therapy for women exactly in your demographic. We can discuss whether you'd like to enroll.
+Lisa: Please, I want to know all my options to fight this.`
 ];
 
 export default function Home() {
@@ -61,8 +67,12 @@ export default function Home() {
 
       setPatientData(data.patientData);
       setTrials(data.trials);
-    } catch (err: any) {
-      setError(err.message || "An unexpected error occurred");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("An unexpected error occurred");
+      }
     } finally {
       setLoading(false);
     }
