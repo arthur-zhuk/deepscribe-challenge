@@ -79,7 +79,7 @@ export default function Home() {
   };
 
   return (
-    <main className="h-screen bg-gray-50 text-gray-900 p-6 md:p-12 overflow-hidden flex flex-col">
+    <main className="md:h-screen min-h-screen bg-gray-50 text-gray-900 p-6 md:p-12 md:overflow-hidden flex flex-col">
       <div className="max-w-7xl mx-auto w-full h-full flex flex-col space-y-6">
         <header className="shrink-0">
           <h1 className="text-3xl font-bold tracking-tight text-blue-900">DeepScribe Clinical Trials Matcher</h1>
@@ -87,7 +87,7 @@ export default function Home() {
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 flex-1 min-h-0">
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex flex-col h-full">
+          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex flex-col md:h-full">
             <div className="flex justify-between items-center mb-4 shrink-0">
               <h2 className="text-xl font-semibold flex items-center gap-2">
                 <Stethoscope className="w-5 h-5 text-blue-600" />
@@ -108,7 +108,7 @@ export default function Home() {
               value={transcript}
               onChange={(e) => setTranscript(e.target.value)}
               placeholder="Paste the patient-doctor conversation here..."
-              className="flex-1 w-full p-4 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none transition-all min-h-0"
+              className="flex-1 w-full p-4 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none transition-all md:min-h-0 min-h-[300px]"
             />
             
             <div className="shrink-0">
@@ -138,7 +138,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="flex flex-col space-y-6 h-full min-h-0">
+          <div className="flex flex-col space-y-6 md:h-full min-h-0">
             {patientData && (
               <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 shrink-0 animate-in fade-in slide-in-from-bottom-4 duration-500">
                 <h2 className="text-xl font-semibold flex items-center gap-2 mb-4">
