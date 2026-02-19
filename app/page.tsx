@@ -163,7 +163,7 @@ export default function Home() {
             )}
 
             {patientData && (
-              <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex-1 flex flex-col min-h-0">
+              <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex-1 flex flex-col min-h-[400px]">
                 <h2 className="text-xl font-semibold flex items-center gap-2 mb-4 shrink-0">
                   <TestTube className="w-5 h-5 text-purple-600" />
                   Clinical Trial Matches
