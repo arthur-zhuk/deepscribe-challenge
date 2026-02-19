@@ -9,16 +9,28 @@ A full-stack application that analyzes patient-doctor transcripts using AI to ex
 3. **AI Extraction**: Uses the OpenAI Node SDK with **Structured Outputs** (`zod` schema) to guarantee the model returns strongly-typed JSON containing the condition, age, and gender.
 4. **Data Fetching**: Queries the ClinicalTrials.gov v2 API, using the extracted condition and demographic keywords to find relevant, actively recruiting studies.
 
+## Architecture & Data Flow
+
+```mermaid
+graph TD
+    A[Frontend: User Input Transcript] -->|POST /api/trials| B(Backend: Next.js API Route)
+    B -->|Prompt w/ Transcript| C{OpenAI API}
+    C -->|Structured JSON: Condition, Age, Gender| B
+    B -->|GET /api/v2/studies| D[(ClinicalTrials.gov API)]
+    D -->|Trial Matches| B
+    B -->|Formatted Results| A
+    A --> E[Frontend: Display Trial Cards]
+```
+
 ## Deployed Demo
 
-*(Assuming this will be deployed to Vercel, replace with live URL)*  
-[View Live Demo](https://deepscribe-6drevsi91-arthur-zhuks-projects.vercel.app)
+[View Live Demo](https://deepscribe-five.vercel.app)
 
 ## Setup & Running Locally
 
 ### Prerequisites
 - Node.js (v18.17 or higher)
-- npm or yarn
+- npm
 - An OpenAI API key
 
 ### Steps
@@ -51,7 +63,7 @@ A full-stack application that analyzes patient-doctor transcripts using AI to ex
 ## Assumptions Made
 
 - **API Version**: The project utilizes the `ClinicalTrials.gov v2 API`, as the legacy API has been retired.
-- **LLM Selection**: The application defaults to `gpt-4o-mini`. It provides excellent performance, low latency, and cost-efficiency for entity extraction with Structured Outputs.
+- **LLM Selection**: The application defaults to `gpt-5.2`. It provides excellent performance, low latency, and cost-efficiency for entity extraction with Structured Outputs.
 - **Demographic Filtering**: The ClinicalTrials v2 API's `query.term` parameter is used to pass age and gender data to provide flexible, text-based matching in addition to the strict `query.cond` parameter. We also strictly filter by `RECRUITING` status to only show actionable trials.
 
 ## Craftsmanship Highlights
