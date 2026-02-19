@@ -25,7 +25,7 @@ export async function POST(req: Request) {
     }
 
     const completion = await openai.chat.completions.parse({
-      model: 'gpt-4o-mini',
+      model: 'gpt-5.2',
       messages: [
         {
           role: 'system',
