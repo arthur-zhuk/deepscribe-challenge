@@ -4,14 +4,35 @@ import { useState } from "react";
 import { Loader2, User, Stethoscope, TestTube, ArrowRight } from "lucide-react";
 import { PatientData, ClinicalTrialStudy } from "@/lib/types";
 
-const SAMPLE_TRANSCRIPT = `Dr. Smith: Good morning, Sarah. How have you been feeling since we last adjusted your asthma medication?
+const SAMPLE_TRANSCRIPTS = [
+  `Dr. Smith: Good morning, Sarah. How have you been feeling since we last adjusted your asthma medication?
 Sarah: Hi Dr. Smith. Honestly, it's been a bit of a struggle. I'm still using my rescue inhaler almost every day, especially after I exercise.
 Dr. Smith: I see. That means your asthma isn't as controlled as we'd like. Remind me, you're 32 now, correct?
 Sarah: Yes, that's right.
-Dr. Smith: Okay. Given that the current inhaler isn't fully managing your symptoms, I think we should look into some alternative therapies. There are some promising new treatments, including some clinical trials for severe or uncontrolled asthma that might be a good fit for you. Let's explore those options.`;
+Dr. Smith: Okay. Given that the current inhaler isn't fully managing your symptoms, I think we should look into some alternative therapies. There are some promising new treatments, including some clinical trials for severe or uncontrolled asthma that might be a good fit for you. Let's explore those options.`,
+  `Dr. Jones: Hello Mark. I have your recent A1C results here, and they are still elevated at 8.5%. 
+Mark: Yeah, I was worried about that. I've been trying to watch my diet, but it's tough with my work schedule.
+Dr. Jones: I understand. Since you are 55 and the Metformin isn't quite getting us to our goal for your Type 2 Diabetes, we might want to consider adding another medication. There are also some interesting clinical trials currently recruiting for new diabetes management protocols. Would you be open to hearing about them?
+Mark: Sure, I'd be willing to try something new if it helps get my sugar under control.`,
+  `Dr. Lee: Hi Emily. How are your joints feeling this month? Any improvement with the new biologic?
+Emily: Not really, Dr. Lee. My hands are still very stiff in the mornings, and the swelling in my knees hasn't gone down much.
+Dr. Lee: I'm sorry to hear that. For a 41-year-old with Rheumatoid Arthritis, we want to aim for much better mobility and pain control. Since you haven't responded well to the standard biologics, you might be a good candidate for a clinical trial testing a new class of targeted therapies.
+Emily: That sounds promising. I just want to be able to play with my kids without pain.`,
+  `Dr. Patel: Good afternoon, Robert. How have the tremors been lately?
+Robert: They've been getting worse, especially in my right hand. And I've noticed I'm moving a lot slower than I used to.
+Dr. Patel: Let's review your chart. You're 62, and we diagnosed you with Parkinson's disease about three years ago. The Levodopa seems to be wearing off faster between doses now. 
+Robert: Exactly. By the time I'm due for the next pill, I can barely walk.
+Dr. Patel: There are a few actively recruiting trials looking at extended-release formulations and completely new mechanisms to treat motor fluctuations in Parkinson's. Let's see if you qualify for any.`,
+  `Dr. Garcia: Welcome back, Chloe. Did the recent MRI show any new lesions?
+Chloe: Unfortunately, yes. The radiologist said there are two new active spots on my spine. My legs have been feeling really weak and tingly again.
+Dr. Garcia: I see. Relapsing-remitting Multiple Sclerosis can be unpredictable. You're only 28, so we need to be aggressive about preventing further disease progression. 
+Chloe: What are our options? The current infusions make me feel so sick.
+Dr. Garcia: We can look at switching your disease-modifying therapy. I also know of a trial investigating a novel remyelination drug that aims to actually repair nerve damage. It might be worth exploring.`
+];
 
 export default function Home() {
   const [transcript, setTranscript] = useState("");
+  const [sampleIndex, setSampleIndex] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [patientData, setPatientData] = useState<PatientData | null>(null);
@@ -63,7 +84,10 @@ export default function Home() {
                 Patient Transcript
               </h2>
               <button
-                onClick={() => setTranscript(SAMPLE_TRANSCRIPT)}
+                onClick={() => {
+                  setTranscript(SAMPLE_TRANSCRIPTS[sampleIndex]);
+                  setSampleIndex((prev) => (prev + 1) % SAMPLE_TRANSCRIPTS.length);
+                }}
                 className="text-sm text-blue-600 hover:text-blue-800 font-medium transition-colors"
               >
                 Load Sample
