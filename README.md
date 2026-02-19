@@ -78,3 +78,11 @@ Here are three areas of the project I paid special attention to:
 
 3. **Optimized API Integration**
    When querying the ClinicalTrials API, the application specifically limits the returned payload by requesting only necessary fields (`fields=NCTId,BriefTitle,OverallStatus,Conditions,EligibilityModule`). This dramatically reduces the payload size and decreases latency, ensuring the application remains snappy even when aggregating external AI and public data services.
+
+## Future Improvements (Production Readiness)
+
+While this application fulfills the core requirements, a production-grade system would require the following architectural enhancements:
+
+1. **API Security & Rate Limiting**: The `/api/trials` endpoint is currently unprotected. In production, this route would be secured behind authentication (e.g., NextAuth/Clerk) and rate-limited (e.g., via Redis/Upstash) to prevent abuse and protect OpenAI API quotas.
+2. **Comprehensive Automated Testing**: A mature CI/CD pipeline would include unit tests for the extraction logic (mocking the OpenAI responses) and integration tests for the ClinicalTrials API fetching using frameworks like Jest or Vitest.
+3. **Configurable Prompt Management**: The system prompt is currently hardcoded in the API route. In an enterprise system, prompts should be decoupled from the codebase—managed via an external CMS or Prompt Management tool (like Langfuse or Braintrust)—allowing non-technical domain experts to iterate on prompt engineering without requiring a full deployment.
