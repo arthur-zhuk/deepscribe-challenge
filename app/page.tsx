@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Loader2, User, Stethoscope, TestTube, ArrowRight } from "lucide-react";
+import { Loader2, User, Stethoscope, TestTube, ArrowRight, BrainCircuit, Search } from "lucide-react";
 import { PatientData, ClinicalTrialStudy } from "@/lib/types";
 
 const SAMPLE_TRANSCRIPTS = [
@@ -226,6 +226,34 @@ export default function Home() {
               <div className="bg-gray-50/50 border-2 border-dashed border-gray-200 rounded-xl h-full min-h-[400px] flex flex-col items-center justify-center text-gray-400 p-8 text-center">
                 <TestTube className="w-12 h-12 mb-4 text-gray-300" />
                 <p>Enter a transcript and find matches to see extracted patient profiles and clinical trials.</p>
+              </div>
+            )}
+
+            {!patientData && loading && (
+              <div className="bg-white border border-gray-200 rounded-xl h-full min-h-[400px] flex flex-col items-center justify-center text-center p-8 shadow-sm">
+                <div className="relative flex items-center justify-center w-32 h-32 mb-8">
+                  {/* Outer pulse */}
+                  <div className="absolute inset-0 bg-blue-100 rounded-full animate-ping opacity-60"></div>
+                  {/* Inner pulse */}
+                  <div className="absolute inset-2 bg-blue-50 rounded-full animate-pulse opacity-80 delay-150"></div>
+                  
+                  {/* Central icon container */}
+                  <div className="relative z-10 bg-gradient-to-tr from-blue-600 to-purple-600 text-white p-4 rounded-full shadow-lg flex items-center justify-center">
+                    <BrainCircuit className="w-10 h-10 animate-pulse" />
+                  </div>
+                  
+                  {/* Orbiting scanning icon */}
+                  <div className="absolute inset-0 animate-[spin_3s_linear_infinite]">
+                    <div className="absolute -top-2 left-1/2 -translate-x-1/2 bg-white text-blue-600 p-1.5 rounded-full shadow-md border border-gray-100">
+                      <Search className="w-4 h-4" />
+                    </div>
+                  </div>
+                </div>
+                
+                <h3 className="text-xl font-bold tracking-tight text-gray-900 mb-2">Analyzing Transcript</h3>
+                <p className="text-sm text-gray-500 max-w-[280px]">
+                  Our AI is extracting medical conditions and demographics to query ClinicalTrials.gov...
+                </p>
               </div>
             )}
           </div>
