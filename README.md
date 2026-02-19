@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# DeepScribe Clinical Trials Matcher
 
-## Getting Started
+A full-stack application that analyzes patient-doctor transcripts using AI to extract key clinical parameters and instantly matches them with actively recruiting trials from ClinicalTrials.gov.
 
-First, run the development server:
+## Overview of Approach
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. **Frontend**: Built with Next.js (App Router), TypeScript, and Tailwind CSS. The UI is designed to be a clean, split-pane dashboard that immediately shows the value of the application without requiring complex navigation.
+2. **Backend**: A Next.js API Route handles the orchestration between the LLM and the ClinicalTrials API.
+3. **AI Extraction**: Uses the OpenAI Node SDK with **Structured Outputs** (`zod` schema) to guarantee the model returns strongly-typed JSON containing the condition, age, and gender.
+4. **Data Fetching**: Queries the ClinicalTrials.gov v2 API, using the extracted condition and demographic keywords to find relevant, actively recruiting studies.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Deployed Demo
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+*(Assuming this will be deployed to Vercel, replace with live URL)*  
+[View Live Demo](https://vercel.com/)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Setup & Running Locally
 
-## Learn More
+### Prerequisites
+- Node.js (v18.17 or higher)
+- npm or yarn
+- An OpenAI API key
 
-To learn more about Next.js, take a look at the following resources:
+### Steps
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. **Clone the repository**
+   ```bash
+   git clone <repo-url>
+   cd deepscribe
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-## Deploy on Vercel
+3. **Configure Environment Variables**
+   Create a `.env.local` file in the root directory and add your OpenAI API key:
+   ```bash
+   OPENAI_API_KEY=your_openai_api_key_here
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+4. **Start the development server**
+   ```bash
+   npm run dev
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+5. **Open the app**
+   Visit [http://localhost:3000](http://localhost:3000) in your browser.
+
+## Assumptions Made
+
+- **API Version**: The project utilizes the `ClinicalTrials.gov v2 API`, as the legacy API has been retired.
+- **LLM Selection**: The application defaults to `gpt-4o-mini`. It provides excellent performance, low latency, and cost-efficiency for entity extraction with Structured Outputs.
+- **Demographic Filtering**: The ClinicalTrials v2 API's `query.term` parameter is used to pass age and gender data to provide flexible, text-based matching in addition to the strict `query.cond` parameter. We also strictly filter by `RECRUITING` status to only show actionable trials.
+
+## Craftsmanship Highlights
+
+Here are three areas of the project I paid special attention to:
+
+1. **Robust LLM Extraction via Structured Outputs**
+   Prompt engineering is only half the battle; ensuring the application doesn't break due to malformed JSON is critical. By combining `zod` schemas with OpenAI's `zodResponseFormat`, the backend guarantees that the response conforms strictly to our TypeScript interfaces (`condition`, `age`, and `gender`). This eliminates parsing errors and provides end-to-end type safety.
+
+2. **Refined User Experience (UX)**
+   The interface features a "Load Sample Transcript" button to instantly demonstrate value. The split-pane layout keeps the user's context (the transcript) visible while the results load on the right. Loading states use smooth transitions and clear iconography (`lucide-react`) to maintain a polished, professional feel.
+
+3. **Optimized API Integration**
+   When querying the ClinicalTrials API, the application specifically limits the returned payload by requesting only necessary fields (`fields=NCTId,BriefTitle,OverallStatus,Conditions,EligibilityModule`). This dramatically reduces the payload size and decreases latency, ensuring the application remains snappy even when aggregating external AI and public data services.
