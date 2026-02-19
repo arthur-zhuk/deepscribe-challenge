@@ -79,16 +79,16 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-gray-50 text-gray-900 p-6 md:p-12">
-      <div className="max-w-7xl mx-auto space-y-8">
-        <header>
+    <main className="h-screen bg-gray-50 text-gray-900 p-6 md:p-12 overflow-hidden flex flex-col">
+      <div className="max-w-7xl mx-auto w-full h-full flex flex-col space-y-6">
+        <header className="shrink-0">
           <h1 className="text-3xl font-bold tracking-tight text-blue-900">DeepScribe Clinical Trials Matcher</h1>
           <p className="text-gray-600 mt-2">Extract patient data from transcripts and find relevant clinical trials.</p>
         </header>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex flex-col">
-            <div className="flex justify-between items-center mb-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 flex-1 min-h-0">
+          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex flex-col h-full">
+            <div className="flex justify-between items-center mb-4 shrink-0">
               <h2 className="text-xl font-semibold flex items-center gap-2">
                 <Stethoscope className="w-5 h-5 text-blue-600" />
                 Patient Transcript
@@ -108,37 +108,39 @@ export default function Home() {
               value={transcript}
               onChange={(e) => setTranscript(e.target.value)}
               placeholder="Paste the patient-doctor conversation here..."
-              className="flex-1 w-full min-h-[300px] p-4 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none transition-all"
+              className="flex-1 w-full p-4 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none transition-all min-h-0"
             />
             
-            <button
-              onClick={handleSearch}
-              disabled={loading || !transcript.trim()}
-              className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 transition-colors"
-            >
-              {loading ? (
-                <>
-                  <Loader2 className="w-5 h-5 animate-spin" />
-                  Analyzing Transcript...
-                </>
-              ) : (
-                <>
-                  Find Matches
-                  <ArrowRight className="w-5 h-5" />
-                </>
-              )}
-            </button>
+            <div className="shrink-0">
+              <button
+                onClick={handleSearch}
+                disabled={loading || !transcript.trim()}
+                className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 transition-colors"
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    Analyzing Transcript...
+                  </>
+                ) : (
+                  <>
+                    Find Matches
+                    <ArrowRight className="w-5 h-5" />
+                  </>
+                )}
+              </button>
 
-            {error && (
-              <div className="mt-4 p-4 bg-red-50 text-red-700 rounded-lg border border-red-100 text-sm">
-                {error}
-              </div>
-            )}
+              {error && (
+                <div className="mt-4 p-4 bg-red-50 text-red-700 rounded-lg border border-red-100 text-sm">
+                  {error}
+                </div>
+              )}
+            </div>
           </div>
 
-          <div className="space-y-6">
+          <div className="flex flex-col space-y-6 h-full min-h-0">
             {patientData && (
-              <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+              <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 shrink-0 animate-in fade-in slide-in-from-bottom-4 duration-500">
                 <h2 className="text-xl font-semibold flex items-center gap-2 mb-4">
                   <User className="w-5 h-5 text-green-600" />
                   Extracted Patient Profile
@@ -161,8 +163,8 @@ export default function Home() {
             )}
 
             {patientData && (
-              <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 min-h-[400px]">
-                <h2 className="text-xl font-semibold flex items-center gap-2 mb-4">
+              <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex-1 flex flex-col min-h-0">
+                <h2 className="text-xl font-semibold flex items-center gap-2 mb-4 shrink-0">
                   <TestTube className="w-5 h-5 text-purple-600" />
                   Clinical Trial Matches
                   <span className="ml-auto text-sm font-normal text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
@@ -170,7 +172,7 @@ export default function Home() {
                   </span>
                 </h2>
                 
-                <div className="space-y-4 max-h-[600px] overflow-y-auto pr-2">
+                <div className="space-y-4 overflow-y-auto pr-2 flex-1 min-h-0">
                   {trials.length === 0 ? (
                     <div className="text-center py-12 text-gray-500">
                       No actively recruiting trials found for this profile.
