@@ -12,7 +12,7 @@ A full-stack application that analyzes patient-doctor transcripts using AI to ex
 ## Deployed Demo
 
 *(Assuming this will be deployed to Vercel, replace with live URL)*  
-[View Live Demo](https://vercel.com/)
+[View Live Demo](https://deepscribe-6drevsi91-arthur-zhuks-projects.vercel.app)
 
 ## Setup & Running Locally
 
